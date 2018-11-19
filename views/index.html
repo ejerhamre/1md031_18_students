@@ -1,12 +1,169 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title>DELI-VERY</title>
-</head>
-<body>
-	<h1>
-		Hello world!
-	</h1>
-	<a href="/map">View map</a>
-</body>
+  <div id="vue-container">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/menu.js" defer></script>
+    <script type="text/javascript" src="js/menu.js"></script>
+    <script src="https://vuejs.org/js/vue.js"></script>
+    <script src="/socket.io/socket.io.js" defer></script>
+    <!-- <script src="js/deli-very.js" defer></script> -->
+    <script src="js/js_script.js" defer></script>
+    <script src="js/vue_script.js" defer></script>
+
+    <title>Babes and Burgers <3</title>
+    <meta charset="utf-8"/>
+  </head>
+
+  <body id="chooseBurger">
+    <div id="myID">
+
+    <main >
+      <section class="header" align="center">
+        <h1 id="headline"> Välkommen till Babes and Burgers! </h1>
+        <img id="headerPic" src="http://www.costellosace.com/wp-content/uploads/2017/01/lightbulbs-large.jpg">
+      </section>
+
+      <section>
+        <h2 align="center"> Vilken burgare är du sugen på idag? </h2>
+        <div align="center"> Välj och vraka bland våra favoriter: </div>
+        <br />
+
+
+        <div class="wrapper">
+          <div class="burgerClass" v-for="burger in burgers">
+              <span> {{ burger.name }} </span>
+              <img :src="burger.img" class="image"></img>
+              <p> {{burger.kCal}} kCal </p>
+              <p v-show=!burger.gluten> Glutenfri </p>
+              <p v-show=!burger.lactose> Laktosfri </p>
+              <input type="checkbox" :value="burger.name" v-model="burgerOrders"/>
+              <label for="burger.name"> Select {{ burger.name }} </label>
+        </div>
+
+
+          <!--<div class="burger a">
+            <h3> Hallomiburgaren </h3>
+            <img src="https://www.ica.se//icase.azureedge.net/imagevaultfiles/id_161415/cf_259/halloumiburgare-med-srirachamajonas-och-soltorkade.jpg" height="200">
+            <ul class="list">
+              <li> Vegetarisk </li>
+              <li> Glutenfri </li>
+              <li class="contains"> Innehåller laktos </li>
+            </ul>
+          </div>
+
+          <div class="burger b">
+            <h3> Hipsterburgaren </h3>
+            <img src="https://imgs.aftonbladet-cdn.se/v2/images/94f7aeb2-7aa8-4f94-971a-c2cf10bc4191?fit=crop&h=409&w=561&s=b9c6ef48051c6d29942d2fd18d4c49db705a1b36" height="200">
+            <ul class="list">
+              <li> Biff på högrev </li>
+              <li class="contains"> Innehåller gluten </li>
+              <li> Laktosfri </li>
+            </ul>
+          </div>
+
+          <div class="burger c">
+            <h3> Bao-burgaren </h3>
+            <img src="https://media-cdn.tripadvisor.com/media/photo-s/13/03/5d/5d/new-guabao-mai-2018-mushroom.jpg" height="200">
+            <ul class="list">
+              <li> Vegansk </li>
+              <li class="contains"> Innehåller gluten </li>
+              <li class="contains"> Innehåller laktos </li>
+            </ul>
+          </div> -->
+
+        </div>
+
+      </section>
+
+
+      <section align="center" id="contactInfo">
+        <h2> Var ska vi skicka din beställning? </h2>
+        <div> Ange leveransinformation nedan: </div>
+        <section id="contact">
+
+          <form>
+            <p>
+              <label for="firstname">För- och efternamn</label><br>
+              <input type="text" id="name" name="fn" required="required"  v-model="name" placeholder="Förnamn Efternamn">
+            </p>
+
+            <p>
+              <label for="email">E-mail</label><br>
+              <input type="email" id="email" name="email" v-model="email" placeholder="abc@domain.com">
+            </p>
+
+            <!-- <p>
+              <label for="address">Gata</label><br>
+              <input type="text" id="address" name="ad" required="required" placeholder="Gatunamn">
+            </p>
+
+            <p>
+              <label for="address">Husnummer</label><br>
+              <input type="number" id="address" name="ad" required="required" placeholder="Husnummer">
+            </p> -->
+
+            <p>
+              <label for="payment">Betalsätt</label><br>
+              <select id="payment" name="pay" v-model="payment">
+                <option selected="selected">Bankkort</option>
+                <option>Faktura</option>
+                <option>Kontant vid leverans</option>
+              </select>
+            </p>
+
+            <p>
+              <input type="radio" name="gender" v-model= "gender" value="male"> Man <br>
+              <input type="radio" name="gender" v-model= "gender" value="female"> Kvinna <br>
+              <input type="radio" name="gender" v-model= "gender" value="non binary"> Icke-binär <br>
+              <input type="radio" name="gender" v-model= "gender" value="other" checked="checked"> Vill inte svara <br>
+            </p>
+          </form>
+
+           <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>DELI-VERY MAP</title>
+            <link rel="stylesheet" href="css/deli-very.css">
+            <script src="/vue/vue.js" defer></script>
+            <script src="/socket.io/socket.io.js" defer></script>
+            <script src="js/deli-very.js" defer></script>
+          </head>
+          <body>
+            <h1> Click in the map! </h1>
+            <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+            <div class="view-box">
+              <div id="dots" v-on:click="addOrder">
+                  <div
+                    v-for="(order, key) in orders"
+                    v-bind:style="{ left: order.details.x + 'px', top: order.details.y + 'px'}">
+                    {{key}}
+                  </div>
+              </div>
+            </div>
+          </body>
+
+          <span> Your information: <br> {{name}} {{email}} {{payment}} {{gender}} </span>
+
+          <br>
+
+          <span> Your Order: <br> {{burgerOrders.join(', ')}} <br>
+          </span>
+
+        </section>
+      </section>
+
+      <div id="orders" align="center">
+      <button type="submit" v-on:click="markDone">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1024px-Yes_Check_Circle.svg.png" width="15">
+        Skicka order
+      </button>
+    </div>
+    </main>
+    <footer>
+    </footer>
+    </div>
+  </body>
+</div>
 </html>
