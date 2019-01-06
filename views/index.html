@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <div id="vue-container">
+    <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <script src="js/menu.js" defer></script>
-    <script type="text/javascript" src="js/menu.js"></script>
-    <script src="https://vuejs.org/js/vue.js"></script>
+    <script type="text/javascript" src="js/menu.js" defer></script>
+    <script src="https://vuejs.org/js/vue.js" defer></script>
     <script src="/socket.io/socket.io.js" defer></script>
-    <!-- <script src="js/deli-very.js" defer></script> -->
+    <link rel="stylesheet" href="css/deli-very.css">
+    <script src="/vue/vue.js" defer></script>
+    <script src="js/deli-very.js" defer></script>
     <script src="js/js_script.js" defer></script>
     <script src="js/vue_script.js" defer></script>
+  </head>
 
+    <div id="vue-container">
     <title>Babes and Burgers <3</title>
     <meta charset="utf-8"/>
-  </head>
+
+
 
   <body id="chooseBurger">
     <div id="myID">
@@ -41,39 +45,7 @@
               <input type="checkbox" :value="burger.name" v-model="burgerOrders"/>
               <label for="burger.name"> Select {{ burger.name }} </label>
         </div>
-
-
-          <!--<div class="burger a">
-            <h3> Hallomiburgaren </h3>
-            <img src="https://www.ica.se//icase.azureedge.net/imagevaultfiles/id_161415/cf_259/halloumiburgare-med-srirachamajonas-och-soltorkade.jpg" height="200">
-            <ul class="list">
-              <li> Vegetarisk </li>
-              <li> Glutenfri </li>
-              <li class="contains"> Innehåller laktos </li>
-            </ul>
-          </div>
-
-          <div class="burger b">
-            <h3> Hipsterburgaren </h3>
-            <img src="https://imgs.aftonbladet-cdn.se/v2/images/94f7aeb2-7aa8-4f94-971a-c2cf10bc4191?fit=crop&h=409&w=561&s=b9c6ef48051c6d29942d2fd18d4c49db705a1b36" height="200">
-            <ul class="list">
-              <li> Biff på högrev </li>
-              <li class="contains"> Innehåller gluten </li>
-              <li> Laktosfri </li>
-            </ul>
-          </div>
-
-          <div class="burger c">
-            <h3> Bao-burgaren </h3>
-            <img src="https://media-cdn.tripadvisor.com/media/photo-s/13/03/5d/5d/new-guabao-mai-2018-mushroom.jpg" height="200">
-            <ul class="list">
-              <li> Vegansk </li>
-              <li class="contains"> Innehåller gluten </li>
-              <li class="contains"> Innehåller laktos </li>
-            </ul>
-          </div> -->
-
-        </div>
+      </div>
 
       </section>
 
@@ -121,49 +93,44 @@
             </p>
           </form>
 
-           <head>
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <title>DELI-VERY MAP</title>
-            <link rel="stylesheet" href="css/deli-very.css">
-            <script src="/vue/vue.js" defer></script>
-            <script src="/socket.io/socket.io.js" defer></script>
-            <script src="js/deli-very.js" defer></script>
-          </head>
-          <body>
-            <h1> Click in the map! </h1>
-            <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+            <h1> Var ska vi skicka din order? Klicka i kartan! </h1>
+
             <div class="view-box">
-              <div id="dots" v-on:click="addOrder">
-                  <div
-                    v-for="(order, key) in orders"
-                    v-bind:style="{ left: order.details.x + 'px', top: order.details.y + 'px'}">
-                    {{key}}
+              <div id="dots" v-on:click="displayOrder">
+                 <div v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}">
+                    T
                   </div>
               </div>
             </div>
-          </body>
 
-          <span> Your information: <br> {{name}} {{email}} {{payment}} {{gender}} </span>
+            <a href="/dispatcher" target="_blank">Open dispatcher in new window</a>.
+            <br>
+
+          <span v-if="show" align="left"> Kundinformation:
+            <ul>
+              <li> Namn: {{name}} </li>
+              <li> E-mail: {{email}} </li>
+              <li> Betalsätt: {{payment}} </li>
+              <li> Kön: {{gender}} </li>
+            </ul>
+          </span>
 
           <br>
 
-          <span> Your Order: <br> {{burgerOrders.join(', ')}} <br>
+          <span> Din order: {{burgerOrders.join(', ')}} <br>
           </span>
 
         </section>
       </section>
 
       <div id="orders" align="center">
-      <button type="submit" v-on:click="markDone">
+      <button type="submit" v-on:click="markDone()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1024px-Yes_Check_Circle.svg.png" width="15">
         Skicka order
       </button>
     </div>
     </main>
-    <footer>
-    </footer>
-    </div>
   </body>
+</div>
 </div>
 </html>

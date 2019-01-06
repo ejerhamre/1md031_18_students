@@ -8,12 +8,22 @@
   <script src="/vue/vue.js" defer></script>
   <script src="/socket.io/socket.io.js" defer></script>
   <script src="js/dispatcher.js" defer></script>
+  <script src="app.js" defer></script>
 </head>
 <body>
   <div id="orders">
     <div id="orderList">
       <div v-for="(order, key) in orders">
         #{{ key }}: {{ order.orderItems.join(", ") }}
+        <p id="personalInfo">
+          {{order.personalInfo[0]}}
+          {{order.personalInfo[1]}}
+          {{order.personalInfo[2]}}
+          {{order.personalInfo[3]}}
+          <br> </p>
+      </div>
+      <div v-for="info in customerInfo">
+        {{info.customerInfo.join(", ")}}
       </div>
     </div>
     <div id="dots">
