@@ -13,10 +13,11 @@ var vm = new Vue({
     payment: "",
     gender: "",
     details: {},
-    location: {x: "", y:""},
+    location: {x:0, y:0},
     show: true,
     arbitraryVariableName: 'Välj din burgare',
     burgers: food,
+    orderNum: 0,
   },
   created: function () {
     socket.on('initialize', function (data) {
@@ -38,25 +39,27 @@ var vm = new Vue({
           }, 0);
           return "T";
       },
+      getNextDisp: function () {
+        this.orderNum = this.orderNum + 1
+        return this.orderNum;
+      },
       addOrder: function (event) {
-        socket.emit("addOrder", { orderId: this.getNext(),
-                                  details: { x: event.clientX-10 - event.currentTarget.getBoundingClientRect().left,
-                                             y: event.clientY-10 - event.currentTarget.getBoundingClientRect().top},
-                                  orderItems: [this.burgerOrders],
-                                  customerInfo: [this.name, this.email, this.payment, this.gender]
+        var locx = this.location.x;
+        var locy = this.location.y;
+        var customerInfo = "Name: " + this.name+ ", Email: "+ this.email + ", Payment method: "+ this.payment + ", Gender: "+ this.gender;
+        socket.emit("addOrder", { orderId: this.getNextDisp(),
+                                  details: { x: locx, y: locy},
+                                  orderItems: [this.burgerOrders, customerInfo]
                                 });
       },
-      displayOrder: function (event) {
-        var offset = {x: event.currentTarget.getBoundingClientRect().left,
-                    y: event.currentTarget.getBoundingClientRect().top};
-                    this.details.x = event.clientX;
-                    this.details.y = event.clientY;
-                    /*this.location.x = {event.clientX - 10 - offset.x};
-                    this.location.y = {event.clientY - 10 - offset.y};*/
-                    this.location = { x: event.clientX - 10 - offset.x,
-                    y: event.clientY - 10 - offset.y };
+      setLocation: function (ev) {
+        var offset = {x: ev.currentTarget.getBoundingClientRect().left,
+                      y: ev.currentTarget.getBoundingClientRect().top};
+                    this.location.x = ev.clientX - 10 - offset.x;
+                    this.location.y = ev.clientY - 10 - offset.y;
+
       }
-   
+
 
 }
 })

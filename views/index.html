@@ -3,15 +3,17 @@
 
     <head>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/menu.js" defer></script>
-    <script type="text/javascript" src="js/menu.js" defer></script>
     <script src="https://vuejs.org/js/vue.js" defer></script>
-    <script src="/socket.io/socket.io.js" defer></script>
+    <script type="text/javascript" src="js/menu.js" defer></script>
     <link rel="stylesheet" href="css/deli-very.css">
     <script src="/vue/vue.js" defer></script>
-    <script src="js/deli-very.js" defer></script>
-    <script src="js/js_script.js" defer></script>
+    <script src="/socket.io/socket.io.js" defer></script>
     <script src="js/vue_script.js" defer></script>
+
+    <!--<script src="js/deli-very.js" defer></script>
+    <script src="js/menu.js" defer></script>
+    <script src="js/js_script.js" defer></script>-->
+
   </head>
 
     <div id="vue-container">
@@ -96,7 +98,7 @@
             <h1> Var ska vi skicka din order? Klicka i kartan! </h1>
 
             <div class="view-box">
-              <div id="dots" v-on:click="displayOrder">
+              <div id="dots" v-on:click="setLocation">
                  <div v-bind:style="{ left: location.x + 'px', top: location.y + 'px'}">
                     T
                   </div>
@@ -124,7 +126,7 @@
       </section>
 
       <div id="orders" align="center">
-      <button type="submit" v-on:click="markDone()">
+      <button type="submit" v-on:click="addOrder();markDone()">
         <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Yes_Check_Circle.svg/1024px-Yes_Check_Circle.svg.png" width="15">
         Skicka order
       </button>
